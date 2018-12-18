@@ -23,13 +23,19 @@ class ContactForm extends Model
     public function rules()
     {
         return [
-            // name, email, subject and body are required
             [['name', 'email', 'subject', 'body'], 'required'],
-            // email has to be a valid email address
+            //['name', 'string', 'max' => 5],
+            ['name', 'myValidate'],
             ['email', 'email'],
-            // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
         ];
+    }
+
+    public function myValidate($attribute, $params)
+    {
+        if ($this->$attribute = 5){
+            $this->addError($attribute, "Ошибка, имени есть число 5");
+        }
     }
 
     /**
