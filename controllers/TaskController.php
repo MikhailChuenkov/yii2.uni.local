@@ -17,16 +17,16 @@ class TaskController extends Controller
         $modelTask->load([
             'TaskCard' =>
                 [
-                    'userName' => 'w',
+                    'userName' => 'Mikhail',
                     'taskName' => 'Create Model TaskCard',
                     'taskStatus' => 1,
                     'deadline' => '20.12.18',
-                    'timeStart' => '28.12.18',
-                    'timeEnd' => date("d.m.y"),
+                    'timeStart' => '18.12.18',
+                    'timeEnd' => '19.12.18',
                 ]
             ]
         );
-        //var_dump($modelTask);
+        var_dump($modelTask->validate());
         var_dump($modelTask->getErrors());
 
         exit;

@@ -21,9 +21,9 @@ class TaskCard extends Model
             ['userName', 'string', 'length' => [3, 12]],
             ['taskName', 'string', 'length' => [10, 42]],
             ['taskStatus', 'boolean'],
-            ['deadline', 'exist'],
-            ['timeStart', 'exist'],
-            [['timeEnd','deadline'], 'date'],
+            ['deadline', 'string'],
+            ['timeStart', 'string'],
+            ['timeEnd', 'string'],
         ];
     }
 }
