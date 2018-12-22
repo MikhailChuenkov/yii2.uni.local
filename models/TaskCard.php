@@ -24,6 +24,7 @@ class TaskCard extends Model
             ['deadline', 'string'],
             ['timeStart', 'string'],
             ['timeEnd', 'string'],
+            //[['timeEnd','deadline'], 'date'],
         ];
     }
 }
