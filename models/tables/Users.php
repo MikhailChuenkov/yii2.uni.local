@@ -63,4 +63,14 @@ class Users extends \yii\db\ActiveRecord
             $this->hasOne(Tasks::className(), ['responsible_id' => 'id']);
 
     }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'username' => 'name',
+            'password',
+        ];
+
+    }
 }
