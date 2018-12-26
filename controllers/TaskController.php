@@ -4,15 +4,16 @@
 namespace app\controllers;
 
 
-use app\models\ContactForm;
-use app\models\TaskCard;
+use app\models\tables\Tasks;
 use yii\web\Controller;
+use app\models\filters\TasksSearch;
+
 
 class TaskController extends Controller
 {
     public function actionIndex()
     {
-
+/*
         $modelTask = new TaskCard();
         $modelTask->load([
             'TaskCard' =>
@@ -30,13 +31,15 @@ class TaskController extends Controller
         var_dump($modelTask->getErrors());
 
         exit;
+*/
+        $model = new Tasks();
+        $searchModel = new TasksSearch();
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        //echo("Hello, World!"); exit;
-        $this->layout = false;
-        //return $this->render('index');
         return $this->render('index',[
-            'title' => 'Hello, Mikhail!',
-            'content' => 'Let\'s begin.'
+            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
