@@ -6,6 +6,7 @@ use app\models\tables\Users;
 use Yii;
 use app\models\tables\Tasks;
 use app\models\filters\TasksSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -73,6 +74,7 @@ class AdminTasksController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'usersList' => Users::getUsersList(),
         ]);
     }
 
@@ -86,15 +88,20 @@ class AdminTasksController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $users = Users::find()->all();
-
+        /*$users = Users::find()
+            ->select(['id', 'name'])
+            ->asArray()
+            ->all();
+        $usersList = ArrayHelper::map($users, 'id', 'name');
+        //var_dump($usersList); exit;
+        */
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-            'users' => $users,
+            'usersList' => Users::getUsersList(),
         ]);
     }
 

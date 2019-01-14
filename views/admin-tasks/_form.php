@@ -20,7 +20,8 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= $form->field($model, 'responsible_id')->dropDownList(
-          \yii\helpers\ArrayHelper::map($users, 'id', 'name')
+          //\yii\helpers\ArrayHelper::map($users, 'id', 'name')
+                $usersList
         ) ?>
     </div>
 

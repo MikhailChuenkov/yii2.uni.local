@@ -4,6 +4,8 @@ namespace app\models\tables;
 
 use app\models\User;
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "tasks".
@@ -14,7 +16,7 @@ use Yii;
  * @property string $description
  * @property int $responsible_id
  *
- * @property string Users $user
+ * @property string Users $user, $responsible
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -25,6 +27,17 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return 'tasks';
     }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::class,
+                'value' => new Expression('NOW()'),
+            ],
+        ];
+    }
+
 
     /**
      * {@inheritdoc}
@@ -54,5 +67,9 @@ class Tasks extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getResponsible()
+    {
+        return $this->hasOne(Users::class, ["id" => "responsible_id"]);
+    }
 
 }
