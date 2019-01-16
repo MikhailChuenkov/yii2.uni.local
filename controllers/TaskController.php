@@ -5,6 +5,7 @@ namespace app\controllers;
 
 
 use app\models\tables\Tasks;
+use app\models\tables\Users;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use app\models\filters\TasksSearch;
@@ -57,5 +58,24 @@ class TaskController extends Controller
     {
         var_dump($id);
         
+    }
+
+    /**
+     * Creates a new Tasks model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
+    public function actionCreate()
+    {
+        $model = new Tasks();
+
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+            'usersList' => Users::getUsersList(),
+        ]);
     }
 }
