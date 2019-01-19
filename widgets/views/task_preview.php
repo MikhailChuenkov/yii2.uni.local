@@ -6,7 +6,7 @@
 ?>
 
 <div class="task-container">
-    <a href="<?= \yii\helpers\Url::to(['task/one', 'id' => $model->id])?>" class="task-preview-link">
+    <a href="<?= \yii\helpers\Url::to(['task', 'id' => $model->id])?>" class="task-preview-link">
         <div class="task-preview">
             <div class="task-preview-header"><?= $model->name?></div>
             <div class="task-preview-content"><?= $model->description?></div>

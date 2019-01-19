@@ -16,8 +16,38 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Tasks', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+<?php $form = \yii\widgets\ActiveForm::begin(); ?>
+
+  <div class="form-group">
+      <?=
+      Html::dropDownList('date',[],
+          [
+              '1' => 'январь',
+              '2' => 'февраль',
+              '3' => 'март',
+              '4' => 'апрель',
+              '5' => 'май',
+              '6' => 'июнь',
+              '7' => 'июль',
+              '8' => 'август',
+              '9' => 'сентябрь',
+              '10' => 'октябрь',
+              '11' => 'ноябрь',
+              '12' => 'декабрь',
+          ]);
+ ?>
+  </div>
+
+  <div class="form-group">
+      <?= Html::submitButton('Выбрать', ['class' => 'btn btn-success']) ?>
+  </div>
+
+<?php \yii\widgets\ActiveForm::end(); ?>
+
 
 <?
+
+
 $model = \app\models\tables\Tasks::findOne(2);
 
 echo \yii\widgets\ListView::widget([

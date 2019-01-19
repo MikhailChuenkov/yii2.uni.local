@@ -27,12 +27,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php
-
+/*
     $key = 'task_' . $model->id;
     var_dump($model->id);
     if($this->beginCache($key, [
             'duration' => 200,
     ])){
+*/
 
     echo DetailView::widget([
         'model' => $model,
@@ -44,8 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'responsible_id',
         ],
     ]);
-    $this->endCache();
-    }
+    //$this->endCache();
+    //}
     ?>
 
 </div>

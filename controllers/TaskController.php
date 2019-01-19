@@ -45,18 +45,25 @@ class TaskController extends Controller
         ]);
     }
 */
+        $request = \Yii::$app->request;
+        $month = $request->post('date');
+        $model = new Tasks();
         $dataProvider = new ActiveDataProvider([
            'query' => Tasks::find()
+            ->where(['MONTH(date)' => $month])
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'model' => $model,
+
         ]);
     }
 
     public function actionOne($id)
     {
         var_dump($id);
+
         
     }
 
