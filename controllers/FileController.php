@@ -22,5 +22,12 @@ class FileController extends Controller
         return $this->render('index', ['model'=>$model]);
         
     }
+    public function actionI18n()
+    {
+        // \Yii::$app->language = "ru";
+        // echo \Yii::t("main", "error", ['number' => 404]);
+        echo \Yii::t('main', 'cats', ['n' => 10]);
+        exit;
+    }
 
 }

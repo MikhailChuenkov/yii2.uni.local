@@ -4,6 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
+    'language' => 'en',
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'bootstrap'],
@@ -12,7 +13,20 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
         '@img'   => '@app/web/img',
     ],
+    'modules' => [
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+        ],
+    ],
     'components' => [
+        'i18n' => [
+            'translations' => [
+                'main*' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@app/messages'
+                ]
+            ]
+        ],
         'bootstrap' => [
             'class' => \app\components\Bootstrap::class,
         ],

@@ -11,9 +11,19 @@ use yii\base\Event;
 
 class Bootstrap extends Component implements BootstrapInterface
 {
+    /** @var  Application */
+    protected $app;
+
     public function bootstrap($app)
     {
+        $this->app = $app;
+        $this->setLang();
         $this->attachEventsHandlers();
+    }
+
+    protected function setLang()
+    {
+        $this->app->language = $this->app->session->get('lang');
     }
 
     protected function attachEventsHandlers(){

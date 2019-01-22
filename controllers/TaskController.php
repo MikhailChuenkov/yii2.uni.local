@@ -4,11 +4,16 @@
 namespace app\controllers;
 
 
+use app\models\forms\TaskAttachmentsAddForm;
+use app\models\tables\TaskAttachments;
+use app\models\tables\TaskComments;
 use app\models\tables\Tasks;
+use app\models\tables\TaskStatuses;
 use app\models\tables\Users;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use app\models\filters\TasksSearch;
+use yii\web\UploadedFile;
 
 
 class TaskController extends Controller
@@ -48,9 +53,15 @@ class TaskController extends Controller
         $request = \Yii::$app->request;
         $month = $request->post('date');
         $model = new Tasks();
+        if($month != NULL){
+            $query = Tasks::find()
+                ->where(['MONTH(date)' => $month]);
+        }else{
+            $query = Tasks::find();
+        }
+
         $dataProvider = new ActiveDataProvider([
-           'query' => Tasks::find()
-            ->where(['MONTH(date)' => $month])
+           'query' => $query,
         ]);
 
         return $this->render('index', [
@@ -60,11 +71,54 @@ class TaskController extends Controller
         ]);
     }
 
-    public function actionOne($id)
+    public function actionTask($id)
     {
-        var_dump($id);
+        return $this->render('one', [
+            'model' => Tasks::findOne($id),
+            'usersList' => Users::getUsersList(),
+            'statusesList' => TaskStatuses::getList(),
+            'userId' => \Yii::$app->user->id,
+            'taskCommentForm' => new TaskComments(),
+            'taskAttachmentForm' => new TaskAttachmentsAddForm(),
 
-        
+        ]);
+    }
+
+    public function actionAddComment()
+    {
+        $model = new TaskComments();
+        if($model->load(\Yii::$app->request->post()) && $model->save()){
+            \Yii::$app->session->setFlash('success', "Комментарий добавлен");
+        }else {
+            \Yii::$app->session->setFlash('error', "Не удалось добавить комментарий");
+        }
+        $this->redirect(\Yii::$app->request->referrer);
+
+    }
+
+    public function actionAddAttachment()
+    {
+        $model = new TaskAttachmentsAddForm();
+        $model->load(\Yii::$app->request->post());
+        $model->file = UploadedFile::getInstance($model, 'file');
+        if($model->save()){
+            \Yii::$app->session->setFlash('success', "Файл добавлен");
+        }else {
+            \Yii::$app->session->setFlash('error', "Не удалось добавить файл");
+        }
+        $this->redirect(\Yii::$app->request->referrer);
+    }
+
+    public function actionSave($id)
+    {
+        if($model = Tasks::findOne($id)){
+            $model->load(\Yii::$app->request->post());
+            $model->save();
+            \Yii::$app->session->setFlash('success', "Изменеия сохранены");
+        }else {
+            \Yii::$app->session->setFlash('error', "Не удалось сохранить изменения");
+        }
+        $this->redirect(\Yii::$app->request->referrer);
     }
 
     /**
@@ -84,5 +138,16 @@ class TaskController extends Controller
             'model' => $model,
             'usersList' => Users::getUsersList(),
         ]);
+    }
+
+    public function actionFind()
+    {
+        $tasks = \Yii::$app->db->createCommand("
+        SELECT date FROM tasks WHERE date >= '2019-01-14'
+        ")->queryAll();
+            /*->select('date')
+            ->from('tasks')
+            ->where('id < 4');*/
+        var_dump($tasks);
     }
 }

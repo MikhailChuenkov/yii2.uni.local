@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?
 
 
-$model = \app\models\tables\Tasks::findOne(2);
+//$model = \app\models\tables\Tasks::findOne(2);
 
 echo \yii\widgets\ListView::widget([
     'dataProvider' => $dataProvider,
