@@ -4,6 +4,7 @@
 namespace app\components;
 
 
+use app\commands\TaskController;
 use app\models\tables\Tasks;
 use yii\base\BootstrapInterface;
 use yii\base\Component;
@@ -19,6 +20,7 @@ class Bootstrap extends Component implements BootstrapInterface
         $this->app = $app;
         $this->setLang();
         $this->attachEventsHandlers();
+        $this->attachSendEmail();
     }
 
     protected function setLang()
@@ -37,6 +39,23 @@ class Bootstrap extends Component implements BootstrapInterface
                 ->setFrom("admin@mail.ru")
                 ->setSubject("Became new task")
                 ->setTextBody("Urgent task to perform {$task->name}")
+                ->send();
+        });
+
+}
+
+    protected function attachSendEmail(){
+        echo 'sdfsfsdf';
+
+        Event::on(TaskController::class, TaskController::EVENT_AFTER_ACTION, function ($event){
+            //$task = $event->sender;
+            //$user = $task->responsible;
+
+            \Yii::$app->mailer->compose()
+                ->setTo('sefs'/*$user->email*/)
+                ->setFrom('admin@mail.ru')
+                ->setSubject("На выполнение задачи остается менее суток")
+                ->setTextBody("Пожалуйста активизируйтесь!")
                 ->send();
         });
 

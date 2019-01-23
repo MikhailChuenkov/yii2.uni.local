@@ -10,15 +10,24 @@ use yii\console\Controller;
 
 class TaskController extends Controller
 {
+    //const EVENT_SEND_EMAIL = 'sendEmail';
     /**
      * Test Task
      */
     public function actionFind()
     {
         $tasks = \Yii::$app->db->createCommand("
-        SELECT date FROM tasks WHERE date >= '2019-01-14'
+        SELECT id, date FROM tasks WHERE date - CURRENT_DATE = 1 
         ")->queryAll();
-        echo $tasks[0]['date'];
+        if($tasks != NULL){
+        foreach ($tasks as $task) {
+            //Событие должно выстрелить
+
+        echo $task['id'];
+        }
+        }
     }
+
+
 
 }

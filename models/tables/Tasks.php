@@ -2,6 +2,7 @@
 
 namespace app\models\tables;
 
+use app\commands\TaskController;
 use app\models\User;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -109,6 +110,22 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::class, ["id" => "responsible_id"]);
     }
+/*
+    public static function sendEmail()
+    {
+        $model = new TaskController();
+        $model->on(TaskController::EVENT_SEND_EMAIL, function ($event){
+            $tasks = $event->sendler;
+            $user = $tasks->responsible;
 
+            \Yii::$app->mailer->compose()
+                ->setTo($user->email)
+                ->setFrom('admin@mail.ru')
+                ->setSubject("На выполнение задачи остается менее суток")
+                ->setTextBody("Пожалуйста активизируйтесь!")
+                ->send();
+        });
 
+    }
+*/
 }

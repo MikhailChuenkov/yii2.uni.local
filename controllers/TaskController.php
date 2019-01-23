@@ -143,11 +143,8 @@ class TaskController extends Controller
     public function actionFind()
     {
         $tasks = \Yii::$app->db->createCommand("
-        SELECT date FROM tasks WHERE date >= '2019-01-14'
+        SELECT id, date FROM tasks WHERE date - CURRENT_DATE = 0000-00-01 
         ")->queryAll();
-            /*->select('date')
-            ->from('tasks')
-            ->where('id < 4');*/
         var_dump($tasks);
     }
 }
