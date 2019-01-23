@@ -27,6 +27,8 @@ use yii\db\Expression;
  */
 class Tasks extends \yii\db\ActiveRecord
 {
+    const EVENT_SEND_EMAIL = 'sendEmail';
+
     /**
      * {@inheritdoc}
      */
@@ -110,22 +112,11 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::class, ["id" => "responsible_id"]);
     }
-/*
-    public static function sendEmail()
-    {
-        $model = new TaskController();
-        $model->on(TaskController::EVENT_SEND_EMAIL, function ($event){
-            $tasks = $event->sendler;
-            $user = $tasks->responsible;
 
-            \Yii::$app->mailer->compose()
-                ->setTo($user->email)
-                ->setFrom('admin@mail.ru')
-                ->setSubject("На выполнение задачи остается менее суток")
-                ->setTextBody("Пожалуйста активизируйтесь!")
-                ->send();
-        });
+    public function sendEmail()
+    {
+        $this->trigger(static::EVENT_SEND_EMAIL);
 
     }
-*/
+
 }

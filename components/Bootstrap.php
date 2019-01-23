@@ -47,9 +47,10 @@ class Bootstrap extends Component implements BootstrapInterface
     protected function attachSendEmail(){
         echo 'sdfsfsdf';
 
-        Event::on(TaskController::class, TaskController::EVENT_AFTER_ACTION, function ($event){
+        Event::on(TaskController::class, TaskController::EVENT_SEND_EMAIL, function ($event){
             //$task = $event->sender;
             //$user = $task->responsible;
+            echo 'sdfsfsdf';
 
             \Yii::$app->mailer->compose()
                 ->setTo('sefs'/*$user->email*/)

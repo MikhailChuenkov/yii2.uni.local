@@ -5,29 +5,39 @@ namespace app\commands;
 
 
 use app\models\tables\Tasks;
-use app\models\tables\Users;
 use yii\console\Controller;
 
 class TaskController extends Controller
 {
-    //const EVENT_SEND_EMAIL = 'sendEmail';
     /**
      * Test Task
      */
     public function actionFind()
     {
-        $tasks = \Yii::$app->db->createCommand("
-        SELECT id, date FROM tasks WHERE date - CURRENT_DATE = 1 
+        $query = \Yii::$app->db->createCommand("
+        SELECT id, name, date, responsible_id FROM tasks WHERE date - CURRENT_DATE = 1 
         ")->queryAll();
-        if($tasks != NULL){
-        foreach ($tasks as $task) {
-            //Событие должно выстрелить
+        if($query != NULL){
+        foreach ($query as $task) {
+            $queryUserEmail = \Yii::$app->db->createCommand("
+        SELECT email FROM users WHERE id = {$task['responsible_id']} 
+        ")->queryAll();
+            $userEmail = $queryUserEmail[0]['email'];
+            $model = new Tasks();
+            $model->on(Tasks::EVENT_SEND_EMAIL, function () use ($task, $userEmail){
+                \Yii::$app->mailer->compose()
+                    ->setTo(/*'user@mail.ru'*/$userEmail)
+                    ->setFrom('admin@mail.ru')
+                    ->setSubject("На выполнение задачи {$task['name']} остается менее суток")
+                    ->setTextBody("Пожалуйста активизируйтесь!")
+                    ->send();
+            });
+
+            $model->sendEmail();
 
         echo $task['id'];
         }
         }
+
     }
-
-
-
 }
