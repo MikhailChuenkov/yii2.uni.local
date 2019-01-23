@@ -23,12 +23,13 @@ class TaskController extends Controller
         SELECT email FROM users WHERE id = {$task['responsible_id']} 
         ")->queryAll();
             $userEmail = $queryUserEmail[0]['email'];
+            $taskName = $task['name'];
             $model = new Tasks();
-            $model->on(Tasks::EVENT_SEND_EMAIL, function () use ($task, $userEmail){
+            $model->on(Tasks::EVENT_SEND_EMAIL, function () use ($taskName, $userEmail){
                 \Yii::$app->mailer->compose()
-                    ->setTo(/*'user@mail.ru'*/$userEmail)
+                    ->setTo($userEmail)
                     ->setFrom('admin@mail.ru')
-                    ->setSubject("На выполнение задачи {$task['name']} остается менее суток")
+                    ->setSubject("На выполнение задачи {$taskName} остается менее суток")
                     ->setTextBody("Пожалуйста активизируйтесь!")
                     ->send();
             });
