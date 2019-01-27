@@ -112,11 +112,11 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Users::class, ["id" => "responsible_id"]);
     }
-
+/*
     public function sendEmail()
     {
         $this->trigger(static::EVENT_SEND_EMAIL);
 
     }
-
+*/
 }

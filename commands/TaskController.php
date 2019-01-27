@@ -6,6 +6,7 @@ namespace app\commands;
 
 use app\models\tables\Tasks;
 use yii\console\Controller;
+use yii\db\ActiveQuery;
 
 class TaskController extends Controller
 {
@@ -14,6 +15,7 @@ class TaskController extends Controller
      */
     public function actionFind()
     {
+        /*
         $query = \Yii::$app->db->createCommand("
         SELECT id, name, date, responsible_id FROM tasks WHERE date - CURRENT_DATE = 1 
         ")->queryAll();
@@ -39,6 +41,23 @@ class TaskController extends Controller
         echo $task['id'];
         }
         }
-
+*/
+        /**
+         * @var ActiveQuery $tasks
+         */
+        $tasks = Tasks::find()
+            ->where('DATEDIFF(NOW(), tasks.date) = -1')
+            ->with('responsible')
+            ->all();
+        foreach ($tasks as $task){
+            \Yii::$app->mailer->compose()
+                ->setTo($task->responsible->email)
+                ->setFrom('admin@mail.ru')
+                ->setSubject("На выполнение задачи {$task->name} остается менее суток")
+                ->setTextBody(" Quicker! ")
+                ->send();
+            echo $task->id;
+        }
     }
+
 }

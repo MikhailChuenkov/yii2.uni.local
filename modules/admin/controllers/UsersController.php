@@ -7,6 +7,7 @@ use Yii;
 use app\models\tables\Users;
 use app\models\filters\UsersSearch;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -36,6 +37,10 @@ class UsersController extends Controller
      */
     public function actionIndex()
     {
+        if(!\Yii::$app->user->can('TaskDelete')){
+            //$this->redirect('../admin/tasks');
+            throw new ForbiddenHttpException();
+        }
         $searchModel = new UsersSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

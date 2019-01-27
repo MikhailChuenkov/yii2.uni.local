@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$mailer = require __DIR__ . '/mailer.php';
 
 $config = [
     'id' => 'basic-console',
@@ -13,6 +14,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'authManager' => [
+            'class' => \yii\rbac\DbManager::class,
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -25,6 +29,7 @@ $config = [
             ],
         ],
         'db' => $db,
+        'mailer' => $mailer,
     ],
     'params' => $params,
     /*

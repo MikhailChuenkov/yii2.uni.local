@@ -21,7 +21,6 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-  <link rel="stylesheet" href="css/tasks.css">
     <?php $this->head() ?>
 </head>
 <body>
@@ -43,6 +42,9 @@ AppAsset::register($this);
                 ['label' => 'ru', 'url' => ['site/lang', 'lang' => 'ru']],
                 ['label' => 'en', 'url' => ['site/lang', 'lang' => 'en']],
             ]],
+            ['label' => 'Tasks', 'url' => ['/task']],
+            ['label' => 'Admin Tasks', 'url' => ['/admin/tasks']],
+            ['label' => 'Admin Users', 'url' => ['/admin/users']],
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],

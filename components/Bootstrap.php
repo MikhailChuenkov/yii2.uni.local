@@ -20,7 +20,7 @@ class Bootstrap extends Component implements BootstrapInterface
         $this->app = $app;
         $this->setLang();
         $this->attachEventsHandlers();
-        $this->attachSendEmail();
+        //$this->attachSendEmail();
     }
 
     protected function setLang()
@@ -43,7 +43,7 @@ class Bootstrap extends Component implements BootstrapInterface
         });
 
 }
-
+/*
     protected function attachSendEmail(){
         echo 'sdfsfsdf';
 
@@ -53,7 +53,7 @@ class Bootstrap extends Component implements BootstrapInterface
             echo 'sdfsfsdf';
 
             \Yii::$app->mailer->compose()
-                ->setTo('sefs'/*$user->email*/)
+                ->setTo('sefs'$user->email)
                 ->setFrom('admin@mail.ru')
                 ->setSubject("На выполнение задачи остается менее суток")
                 ->setTextBody("Пожалуйста активизируйтесь!")
@@ -61,5 +61,6 @@ class Bootstrap extends Component implements BootstrapInterface
         });
 
 }
+*/
 
 }

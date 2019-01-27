@@ -8,6 +8,7 @@ use app\models\tables\Tasks;
 use app\models\filters\TasksSearch;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -37,6 +38,10 @@ class TasksController extends Controller
      */
     public function actionIndex()
     {
+        if(!\Yii::$app->user->can('TaskDelete')){
+            //$this->redirect('../admin/tasks');
+            throw new ForbiddenHttpException();
+        }
         $searchModel = new TasksSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

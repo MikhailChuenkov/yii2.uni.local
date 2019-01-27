@@ -13,6 +13,7 @@ use app\models\tables\Users;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use app\models\filters\TasksSearch;
+use yii\web\ForbiddenHttpException;
 use yii\web\UploadedFile;
 
 
@@ -73,6 +74,9 @@ class TaskController extends Controller
 
     public function actionTask($id)
     {
+        if(!\Yii::$app->user->can('TaskEdit')){
+            throw new ForbiddenHttpException();
+        }
         return $this->render('one', [
             'model' => Tasks::findOne($id),
             'usersList' => Users::getUsersList(),
@@ -86,6 +90,9 @@ class TaskController extends Controller
 
     public function actionAddComment()
     {
+        if(\Yii::$app->user->can('TaskNotComment')){
+            throw new ForbiddenHttpException();
+        }
         $model = new TaskComments();
         if($model->load(\Yii::$app->request->post()) && $model->save()){
             \Yii::$app->session->setFlash('success', "Комментарий добавлен");
@@ -98,6 +105,9 @@ class TaskController extends Controller
 
     public function actionAddAttachment()
     {
+        if(\Yii::$app->user->can('TaskNotComment')){
+            throw new ForbiddenHttpException();
+        }
         $model = new TaskAttachmentsAddForm();
         $model->load(\Yii::$app->request->post());
         $model->file = UploadedFile::getInstance($model, 'file');
@@ -111,6 +121,7 @@ class TaskController extends Controller
 
     public function actionSave($id)
     {
+
         if($model = Tasks::findOne($id)){
             $model->load(\Yii::$app->request->post());
             $model->save();
@@ -128,6 +139,10 @@ class TaskController extends Controller
      */
     public function actionCreate()
     {
+        if(!\Yii::$app->user->can('TaskCreate')){
+            //$this->redirect('site/login');
+            throw new ForbiddenHttpException();
+        }
         $model = new Tasks();
 
         if ($model->load(\Yii::$app->request->post()) && $model->save()) {
@@ -138,13 +153,5 @@ class TaskController extends Controller
             'model' => $model,
             'usersList' => Users::getUsersList(),
         ]);
-    }
-
-    public function actionFind()
-    {
-        $tasks = \Yii::$app->db->createCommand("
-        SELECT id, date FROM tasks WHERE date - CURRENT_DATE = 0000-00-01 
-        ")->queryAll();
-        var_dump($tasks);
     }
 }
